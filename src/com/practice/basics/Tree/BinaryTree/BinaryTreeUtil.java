@@ -20,4 +20,8 @@ public class BinaryTreeUtil {
 		
 		return root;
 	}
+	
+	public static boolean isBinaryTreeRootEmpty(BinaryTreeNode root) {
+		return root == null;
+	}
 }
