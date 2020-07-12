@@ -1,7 +1,9 @@
 package com.practice.basics.Tree.BinaryTree;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class BinaryTreeTraversals {
@@ -12,8 +14,10 @@ public class BinaryTreeTraversals {
 		System.out.println("Pre Order traversal Iterative: " + preOrderTraversalIterative(rootNode));
 		System.out.println("In Order traversal Recursive: " + inOrderTraversalRecursive(rootNode, new ArrayList<>()));
 		System.out.println("In Order traversal Iterative: " + inOrderTraversalIterative(rootNode));
-		System.out.println("Post Order traversal Recursive: " + postOrderTraversalRecursive(rootNode, new ArrayList<>()));
+		System.out
+				.println("Post Order traversal Recursive: " + postOrderTraversalRecursive(rootNode, new ArrayList<>()));
 		System.out.println("Post Order traversal Iterative: " + postOrderTraversalIterative(rootNode));
+		System.out.println("Level Order traversal Iterartive: " + levelOrderTraversal(rootNode));
 	}
 
 	private static List<Integer> preOrderTraversalRecursive(BinaryTreeNode root, List<Integer> result) {
@@ -110,7 +114,7 @@ public class BinaryTreeTraversals {
 			BinaryTreeNode current = stack.peek();
 			if (previous == null || previous.getLeft() == current || previous.getRight() == current) {
 				// first if block if we are traversing from root to the leaf
-				// nodes and push child nodes to stack
+				// nodes so push child nodes to stack
 				if (current.getLeft() != null) {
 					stack.push(current.getLeft());
 				} else if (current.getRight() != null) {
@@ -131,6 +135,39 @@ public class BinaryTreeTraversals {
 				stack.pop();
 			}
 			previous = current;
+		}
+		return result;
+	}
+	
+	private static List<List<Integer>> levelOrderTraversal(BinaryTreeNode root) {
+		List<List<Integer>> result = new ArrayList<>();
+		Queue<BinaryTreeNode> queue = new LinkedList<>();
+		if (BinaryTreeUtil.isBinaryTreeRootEmpty(root)) {
+			return result;
+		}
+		List<Integer> currentResult = new ArrayList<>();
+		queue.offer(root);
+		// Null is used to indicate new level
+		queue.offer(null);
+		while (!queue.isEmpty()) {
+			BinaryTreeNode current = queue.poll();
+			if (current != null) {
+				currentResult.add(current.getData());
+				if (current.getLeft() != null) {
+					queue.offer(current.getLeft());
+				}
+				if (current.getRight() != null) {
+					queue.offer(current.getRight());
+				}
+			} else {
+				List<Integer> tempResult = new ArrayList<>(currentResult);
+				result.add(tempResult);
+				currentResult.clear();
+				// One level is complete, add null to indicate new level is starting
+				if (!queue.isEmpty()) {
+					queue.offer(null);
+				}
+			}
 		}
 		return result;
 	}

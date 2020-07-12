@@ -27,7 +27,7 @@ public class BinaryTreeNode {
 	}
 	@Override
 	public String toString() {
-		return "BinaryTreeNode [data=" + data + ", left=" + left + ", right=" + right + "]";
+		return "BinaryTreeNode [Node data= " + data +"]";
 	}
 	
 }
